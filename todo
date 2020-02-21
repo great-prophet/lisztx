@@ -1,0 +1,10 @@
+
+
+find a way to get full video metadata with download links (reverse engineer youtubedl)
+
+parse download links
+parse other relevant data
+
+download audio and thumbnail from links
+
+set meta data of audio
