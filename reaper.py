@@ -1,8 +1,12 @@
 import os
+import sys
 
-# directory = os.getcwd()
+try:
+    directory = sys.argv[1]
+except:
+    print('must specify directory')
+    exit()
 
-directory = "backup/"
 succFormat = ".mp3"  # succ = successor
 rootFormats = [".opus", ".m4a"]
 

@@ -1,13 +1,17 @@
 import json
 import os
+import sys
 import shutil
 from mutagen.id3 import ID3, TIT2, TALB, TPE1, TDRC
 from PIL import Image
 
-# directory = os.getcwd()
+try:
+    directory = sys.argv[1]
+    outputPath = sys.argv[2]
+except:
+    print('must specify directory and output')
+    exit()
 
-directory = "raw/"
-outputPath = "output/"
 
 extensions = [".info.json", ".jpg", ".mp3"]
 
