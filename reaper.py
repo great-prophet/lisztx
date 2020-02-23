@@ -18,7 +18,7 @@ totalReaped = 0
 
 for file in converted:
     for ext in rootFormats:
-        if directory + file + ext in allFiles:
+        if file + ext in allFiles:
             os.system("rm \"" + directory + file + ext + "\"")
             totalReaped += 1
 
