@@ -2,10 +2,12 @@ import json
 import os
 import shutil
 from mutagen.id3 import ID3, TIT2, TALB, TPE1, TDRC
+from PIL import Image
 
 # directory = os.getcwd()
 
-directory = "backup/"
+directory = "raw/"
+outputPath = "output/"
 
 extensions = [".info.json", ".jpg", ".mp3"]
 
@@ -28,7 +30,6 @@ for name in files:
     for ext in extensions:
         os.rename(directory + name + ext, directory + title + ext)
 
-
     # write mp3 metadata
 
     tags = ID3(directory + title + ".mp3")
@@ -43,19 +44,25 @@ for name in files:
 
     tags.save(directory + title + ".mp3")
 
-
     # move mp3 to album
 
-    albumPath = playlist + "/" + album + "/"
+    playlistAlbum = playlist + " - " + album
+    albumPath = outputPath + playlist + "/" + playlistAlbum + "/"
 
-    os.makedirs(directory + albumPath, exist_ok=True)
-    shutil.copy(directory + title + ".mp3", directory + albumPath)
+    os.makedirs(albumPath, exist_ok=True)
+    shutil.copy(title + ".mp3", albumPath)
 
+    # copy playlistAlbum art if not exist
 
-    # copy album art if not exist
+    if playlistAlbum + ".jpg" not in os.listdir(albumPath):
+        shutil.copy(title + ".jpg", albumPath)
+        os.rename(albumPath + title + ".jpg", albumPath + playlistAlbum + ".jpg")
 
-    if album + ".jpg" not in os.listdir(directory + albumPath):
-        shutil.copy(directory + title + ".jpg", directory + albumPath)
-        os.rename(directory + albumPath + title + ".jpg", directory + albumPath + album + ".jpg")
+        # crop cover art
+
+        cover = Image.open(directory + albumPath + playlistAlbum + ".jpg")
+        width, height = cover.size
+        cover = cover.crop(((width - height) / 2, 0, width - (width - height) / 2, height))
+        cover.save(directory + albumPath + playlistAlbum + ".jpg")
 
     print(title)

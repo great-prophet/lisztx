@@ -1,9 +1,12 @@
-import json
 import os
+import sys
 
-# directory = os.getcwd()
+try:
+    directory = sys.argv[1]
+except:
+    print('must specify directory')
+    exit()
 
-directory = "backup/"
 outputFormat = ".mp3"
 
 allFiles = os.listdir(directory)
